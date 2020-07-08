@@ -1,9 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const path = require('path');
 const PORT = process.env.PORT || 3001;
-const app = express();
 const routes = require('./routes');
+const db = require('./models');
+
+const express = require('express');
+const app = express();
 
 const session = require('express-session');
 const initSession = require('./scripts/initSession');
@@ -37,12 +39,11 @@ app.get('*', function (req, res) {
 // error handling, last middleware.
 app.use((err, req, res, next) => errorHandler(err, req, res, next));
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/passport', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useCreateIndex: true
-});
+// Syncing our database and logging a message to the user upon success
 
-app.listen(PORT, function () {
-	console.log(`\n🌎 ==> API server now on http://localhost:${PORT}\n`);
+db.sequelize.sync().then(() => {
+	console.log('connected');
+	app.listen(PORT, () => {
+		console.log(`\n🌎 ==> API server now on http://localhost:${PORT}\n`, PORT, PORT);
+	});
 });

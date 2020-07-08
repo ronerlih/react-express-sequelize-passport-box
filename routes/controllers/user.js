@@ -1,6 +1,6 @@
 // get reference to DB 
 const db = require('../../models');
-const passport = require('passport');
+// const passport = require('passport');
 
 module.exports = {
 
@@ -39,7 +39,8 @@ module.exports = {
 
    // signup user
    create: (req, res) => {
-   
+      
+      console.log(db)
       // create user in db
       db.User.create({
          email: req.body.email,

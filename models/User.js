@@ -1,53 +1,35 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-
-var UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true,
-  }
-});
-
-//hashing a password before saving it to the database
-UserSchema.pre('save', function (next) {
-  var user = this;
-  bcrypt.hash(user.password, 14, function (err, hash){
-    if (err) {
-      return next(err);
-    }
-    user.password = hash;
-    next();
-  })
-});
-
-//authenticate input against database
-UserSchema.statics.authenticate = function (email, password, callback) {
-  User.findOne({ email: email })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
+// Requiring bcrypt for password hashing. Using the bcryptjs version as the regular bcrypt module sometimes causes errors on Windows machines
+const bcrypt = require("bcryptjs");
+// Creating our User model
+module.exports = function(sequelize, DataTypes) {
+  const User = sequelize.define("User", {
+    // The email cannot be null, and must be a proper email before creation
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
       }
-      bcrypt.compare(password, user.password, function (err, result) {
-        
-        if(err) throw err;
-
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
-    });
-}
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+    },
+    // The password cannot be null
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  });
+  // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database
+  User.prototype.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+  // Hooks are automatic methods that run during various phases of the User Model lifecycle
+  // In this case, before a User is created, we will automatically hash their password
+  User.addHook("beforeCreate", user => {
+    user.password = bcrypt.hashSync(
+      user.password,
+      bcrypt.genSaltSync(10),
+      null
+    );
+  });
+  return User;
+};
