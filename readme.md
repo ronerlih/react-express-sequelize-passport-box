@@ -15,17 +15,28 @@
 
 ### ⚙️ Installation
 
-##### Option 1: copy from gitlab
-url tbd.
+##### copy from gitlab or clone the repo
+https://columbia.bootcampcontent.com/columbia-bootcamp/cu-nyc-fsf-pt-01-2020-u-c/tree/master/23-Project-3/Suplemental
 
-  1. create git repo
-  2. create heroku app + mLab addon 
+**Run Locally**
+  1. clone/fork the repo or copy from the Gitlab folder.
+  2. create a git repo and add the project to it.
+  2. `cd` into the root folder.
+  3. create a `.env` file with a DB_NAME and DB_PASS variables:
+  <img src='_/env.png' style="max-width:300px" />
+  4. run `npm i`
+  5. create you local database, from workbench or any sql client: `CREATE DATABASE your-data-base-name`
+  5. run `npm start` and 🤞
+
+**Deploy to heroku**
+  1. run from the root folder `heroku create your-app-name`
+  2. Add JAWS_DB addon (from the heroku app dashboard).
+  4. add env vars on heroku app dashboard: SESSION_PASS (with any string).
   3. add repo to coveralls.io
-  4. on heroku dashboard create an env var for COVERALLS_REPO_TOKEN with your token.
-  5. commit and push (directly to heroku or using a pipeline from github)
+  5. commit and push (directly to heroku or using a pipeline from github) 🚀
 
-##### Option 2: clone from github 
-  * follow steps 1-5.
+  * Debug issues: `heroku logs --tail` 
+  read more: https://www.oreilly.com/library/view/heroku-up-and/9781449341381/ch07.html
 
 ### :evergreen_tree: structure
 <img src='_/folder-structure.jpg' style="max-width:500px" />
