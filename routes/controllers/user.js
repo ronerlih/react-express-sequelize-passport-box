@@ -32,7 +32,7 @@ module.exports = {
    },
 
    // signup user
-   create: (req, res) => {
+   create: (req, res, next) => {
       
       // create user in db
       db.User.create({
@@ -41,12 +41,10 @@ module.exports = {
       })
 
       // redirect to login
-      .then(user => {
-         res.json(user)
-      })
+      .then(user =>  res.json(user))
       .catch(err => {
-         // console.log(err.message)
-         res.status(401).json(err.message)
+            res.status(401);
+            next(err)
       });
    },
       

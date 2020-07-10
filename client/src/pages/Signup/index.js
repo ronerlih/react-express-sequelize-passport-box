@@ -57,18 +57,17 @@ class Signup extends Component {
 						this.props.setUser(res.data);
 						return <Redirect to='/home' />;
 					} else {
-
+						console.log(res.response)
 						this.props.setLoading(false);
 						this.props.setAlertInfo({
 							theme: 'warning',
-							message: res.response.data
+							message: res.response.data.message
 						});
 					}
 				})
-				.catch(err => {
+				.catch(res => {
 					this.props.setLoading(false);
-					console.log(err);
-					this.props.setAlertInfo({ theme: 'warning', message: JSON.stringify(err) });
+					this.props.setAlertInfo({ theme: 'warning', message: res.response.data });
 				});
 	};
 

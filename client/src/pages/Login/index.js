@@ -43,12 +43,12 @@ class Login extends Component {
 						this.props.setUser(res.data);
 					}
 				})
-				.catch(err => {
+				.catch(res => {
 					this.props.setLoading(false);
-					console.warn(err.response.data);
+					console.warn(res.response.data);
 					this.props.setAlertInfo({
 						theme: 'warning',
-						message: err.response.data
+						message: res.response.data
 					});
 				});
 		}
