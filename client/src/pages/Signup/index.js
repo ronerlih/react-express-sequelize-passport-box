@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import styles from './style.module.css';
-import { user as userAPI } from '../../utils/API';
-import { Redirect } from 'react-router-dom';
-import { Col, Row, Container } from '../../components/Grid';
-import { Input, FormBtn } from '../../components/Form';
 import Card from '../../components/Card';
+import { Redirect } from 'react-router-dom';
+import { Input, FormBtn } from '../../components/Form';
+import { Col, Row, Container } from '../../components/Grid';
+import { user as userAPI } from '../../utils/API';
+import validateUser from "../../utils/validateUser";
 
 class Signup extends Component {
 	constructor(props) {
@@ -16,8 +17,6 @@ class Signup extends Component {
 			passwordConf: ''
 		};
 	}
-
-	componentDidMount() {}
 
 	handleInputChange = event => {
 		const { name, value } = event.target;
@@ -37,7 +36,7 @@ class Signup extends Component {
       return this.props.setAlertInfo({theme:"warning", message:"Please fill all required fields"})
     }
 
-    // validate pass === to pass confirmation.
+    // validate pass === to passConfirmation.
     if(this.state.password.trim() !== this.state.passwordConf.trim()) {
 		  this.props.setLoading(false);
       // set error alert to user
@@ -53,12 +52,12 @@ class Signup extends Component {
 					passwordConf: this.state.passwordConf.trim()
 				})
 				.then(res => {
-					console.log(res);
 					if (res.status === 200) {
-						this.props.setUser(res.data);
 						this.props.setLoading(false);
+						this.props.setUser(res.data);
 						return <Redirect to='/home' />;
 					} else {
+
 						this.props.setLoading(false);
 						this.props.setAlertInfo({
 							theme: 'warning',
@@ -68,8 +67,8 @@ class Signup extends Component {
 				})
 				.catch(err => {
 					this.props.setLoading(false);
-					console.log(err.response.data);
-					this.props.setAlertInfo({ theme: 'warning', message: err.response.data });
+					console.log(err);
+					this.props.setAlertInfo({ theme: 'warning', message: JSON.stringify(err) });
 				});
 	};
 
@@ -118,9 +117,9 @@ class Signup extends Component {
 					</Col>
 				</Row>
 				{/* redirect on authenticated */}
-        { this.props.user && this.props.user._id 
+        { validateUser(this.props.user)
           ?  <Redirect to='/home' /> 
-          :  <div></div> }
+          :  <></> }
 			</Container>
 		);
 	}

@@ -1,33 +1,27 @@
 // get reference to DB 
 const db = require('../../models');
-// const passport = require('passport');
-
 module.exports = {
 
    // login user
 	login: (req, res, next) => {
       
       //validate request
-		if (req.body.email && req.body.password) {
-			console.log(req.body.email, req.body.password);
-			db.User.authenticate(req.body.email, req.body.password, function (error, user) {
+		if (req.body.email && req.body.password) {   
             
             // check error (including no user)
-            if (error || !user) {
+            if (!req.user) {
                const err =  new Error('incorrect credentials, no user found')
                next(err)
 
             // user found
 				} else {
-               console.log(`login: `, user._id);
+               console.log(`login: `, req.user.email);
                
                // save user to session to match on login
-               req.session.user = user;
-               //
-					req.user = user;
-					return res.json(user);
+               req.session.user = req.user;
+					return res.json(req.user);
 				}
-         });
+         // });
 
       // request missing fields
 		} else {
@@ -40,7 +34,6 @@ module.exports = {
    // signup user
    create: (req, res) => {
       
-      console.log(db)
       // create user in db
       db.User.create({
          email: req.body.email,
@@ -48,15 +41,17 @@ module.exports = {
       })
 
       // redirect to login
-      .then(() => res.redirect(307, '/api/user/login'))
+      .then(user => {
+         res.json(user)
+      })
       .catch(err => {
-         console.log(err.message)
+         // console.log(err.message)
          res.status(401).json(err.message)
       });
    },
       
    signout: (req, res) => {
-      console.log('signed out:', req.session.user.email )
+      console.log('signed out:', req.user.email )
       // destroy session
       req.session.destroy();
       // clear cookie on the client side
@@ -68,7 +63,6 @@ module.exports = {
    
    // authenticate user
 	authenticate: (req, res, next) => {
-      console.log(req.session);
-      res.json(req.session.user);
+      req.user ? res.json(req.user) : res.status(204).send();
    },
 };

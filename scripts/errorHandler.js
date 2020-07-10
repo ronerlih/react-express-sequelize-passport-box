@@ -1,4 +1,5 @@
 module.exports = function (error, req, res, next) {
+  console.log("\n--error handler--");
   console.log("New Error");
     if (res.headersSent) {
       console.log('error sent');

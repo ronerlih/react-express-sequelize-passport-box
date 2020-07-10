@@ -41,6 +41,7 @@
     "mongoose": "^5.9.20",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^5.8.6",
     "uninstall": "0.0.0"
   },

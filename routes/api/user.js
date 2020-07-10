@@ -2,9 +2,10 @@
 
 const router = require('express').Router();
 const userFunctions = require('../controllers/user')
+const passport = require("../../config/passport");
 
 router.route('/login')
-   .post(userFunctions.login);
+   .post(passport.authenticate("local"), userFunctions.login);
 
 router.route('/signup')
    .post(userFunctions.create);

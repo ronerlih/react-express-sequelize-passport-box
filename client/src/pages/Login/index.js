@@ -5,6 +5,7 @@ import { Col, Row, Container } from '../../components/Grid';
 import { Input, FormBtn } from '../../components/Form';
 import Card from '../../components/Card';
 import styles from './style.module.css';
+import validateUser from "../../utils/validateUser";
 
 class Login extends Component {
 	constructor(props) {
@@ -86,7 +87,7 @@ class Login extends Component {
 				</Row>
 
 				{/* Redirect on authentication */}
-				{this.props.user && this.props.user._id ? <Redirect to='/home' /> : <></>}
+				{ validateUser(this.props.user) && <Redirect to='/home' /> }
 			</Container>
 		);
 	}

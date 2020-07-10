@@ -32,7 +32,7 @@ const Navbar = props => {
 					Navbar
 				</div>
 			</Link>
-			{ props.user._id 
+			{ props.user.id 
 				?  <Button theme='dark' onClick={signout}><i className='fa fa-sign-out fa-1x' aria-hidden='true'></i></Button>
 				:  location.pathname === '/signup' 
 					? 	<Link to='/login'><Button>login</Button></Link>

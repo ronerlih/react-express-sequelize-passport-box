@@ -19,8 +19,10 @@ function App() {
    useEffect(() => {
 		// no catch, add if you want to check for it.
 		// only setting user if we got one, to avoid rerendering the page.
-      userAPI.authenticate()
-			.then(res => res.data ? setUser(res.data) : 0);
+		userAPI.authenticate()
+			.then(res => res.data ? setUser(res.data) : 0)
+			// repress the authenticate route error if recieved one.
+			.catch(e => console.log(e))
    }, []);
    
 	return (
