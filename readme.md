@@ -32,8 +32,9 @@ https://columbia.bootcampcontent.com/columbia-bootcamp/cu-nyc-fsf-pt-01-2020-u-c
   1. run from the root folder `heroku create your-app-name`
   2. Add JAWS_DB addon (from the heroku app dashboard).
   4. add env vars on heroku app dashboard: SESSION_PASS (with any string).
-  3. add repo to coveralls.io
-  5. commit and push (directly to heroku or using a pipeline from github) 🚀
+  3. Add repo to travis-ci.com
+  3. Add repo to coveralls.io
+  5. Commit and push (directly to heroku or using a pipeline from github) 🚀
 
   * Debug issues: `heroku logs --tail` 
   read more: https://www.oreilly.com/library/view/heroku-up-and/9781449341381/ch07.html
