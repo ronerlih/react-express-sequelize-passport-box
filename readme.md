@@ -1,6 +1,6 @@
  [![Build Status](https://travis-ci.com/ronerlih/passport-express-mongo-react-box.svg?branch=master)](https://travis-ci.com/ronerlih/passport-express-mongo-react-box) [![Coverage Status](https://coveralls.io/repos/github/ronerlih/passport-express-mongo-react-box/badge.svg?branch=master)](https://coveralls.io/github/ronerlih/passport-express-mongo-react-box?branch=master)
 
-## Sequelize-Express-React-Passport boilerplate.
+## React-express-sequelize-passport boilerplate.
  * express backend
  * mogoose + mongodb ( users collection )
  * react ( create react app )
